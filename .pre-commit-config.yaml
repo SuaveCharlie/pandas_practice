@@ -1,0 +1,50 @@
+exclude: .venv
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: check-ast # simply checks whether the files parse as valid python
+      - id: check-toml # checks toml files for parseable syntax
+      - id: detect-private-key
+      - id: pretty-format-json
+        args: [--autofix, --no-sort-keys]
+      - id: trailing-whitespace # trims trailing whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: check-case-conflict # checks for files that would conflict in case-insensitive filesystems
+      - id: fix-byte-order-marker # removes utf-8 byte order marker
+      - id: debug-statements # checks for debugger imports and py37+ `breakpoint()` calls in python source
+      - id: check-added-large-files # prevents giant files from being committed
+        args: ['--maxkb=2500']
+      - id: mixed-line-ending # replaces or checks mixed line ending
+        args: [--fix=auto]
+      - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
+
+  - repo: https://gitlab.com/vojko.pribudic.foss/pre-commit-update
+    rev: v0.5.0
+    hooks:
+      - id: pre-commit-update
+        args: [--dry-run, --preview]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.4
+    hooks:
+      - id: ruff
+        args: [--fix, --config=pyproject.toml]
+      - id: ruff-format
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        name: detect-secrets
+        args: ['--disable-plugin', 'KeywordDetector', '--exclude-files', '.*\.ipynb$',]
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.5.8
+    hooks:
+      - id: uv-lock
+      - id: pip-compile
+        args: [requirements.in, -o, requirements.txt]
