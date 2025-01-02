@@ -1,5 +1,3 @@
-import logging
-
 from src.data_loader.base_data_loader import BaseDataLoader
 from src.export.base_exporter import BaseExporter
 from src.transformers.base_transformer import BaseTransformer
@@ -14,8 +12,6 @@ class PandasPractice:
         transformer: BaseTransformer,
         exporter: BaseExporter,
     ):
-        logging.info(data_loader)
-        logging.info(type(data_loader))
         self.data_loader = data_loader
         self.transformer = transformer
         self.exporter = exporter
